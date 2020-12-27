@@ -1,4 +1,5 @@
 import argparse
+import sys
 from typing import List, Tuple
 
 
@@ -11,7 +12,7 @@ class FractionGenerator:
         ``self.state`` can only be in 5 different states.
 
         - When ``self.state == 0`, generator is at its initial state.
-          Calling generator at inital state will yield ``(0, 0)``.
+          Calling generator at inital state will yield ``(0, 1)``.
         - When ``self.state == 1`, generator will find all co-primes of
           ``self.nominator`` and stores them in ``self.memory``.
           Each time a co-prime ``p`` is found, generator will yield
@@ -70,9 +71,9 @@ class FractionGenerator:
             Rationals where the first element is nominator and the second is
             denominator.
         """
-        # Generating (0, 0).
+        # Generating (0, 1).
         if self.nominator == 0:
-            res = (0, 0)
+            res = (0, 1)
             self.nominator = 1
             self.state = 1
 
@@ -181,7 +182,7 @@ def bijection(n: int) -> List[Tuple[int, int]]:
     return res
 
 
-if __name__ == '__main__':
+def parse_args(argv: List[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
@@ -196,7 +197,13 @@ if __name__ == '__main__':
         action='store_true',
     )
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+
+    return args
+
+
+def main(argv: List[str]):
+    args = parse_args(argv)
 
     res = bijection(n=args.n)
 
@@ -207,3 +214,7 @@ if __name__ == '__main__':
     else:
         nominator, denominator = res[-1]
         print(f'{nominator}/{denominator}')
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
