@@ -61,9 +61,6 @@ class FractionGenerator:
             a, b = b, r
         return 1
 
-    def __iter__(self):
-        return self
-
     def __next__(self) -> Tuple[int, int]:
         """Yield rationals.
 
@@ -72,11 +69,6 @@ class FractionGenerator:
         Tuple[int, int]
             Rationals where the first element is nominator and the second is
             denominator.
-
-        Raises
-        ======
-        ValueError
-            When state is invalid.
         """
         # Generating (0, 0).
         if self.nominator == 0:
@@ -89,12 +81,10 @@ class FractionGenerator:
             if self.state == 1:
                 res = (1, 1)
                 self.state = 3
-            elif self.state == 3:
+            else:
                 res = (-1, 1)
                 self.nominator = 2
                 self.state = 1
-            else:
-                raise ValueError('invalid state.')
 
         # Generating (2, 1), (1, 2), (-2, 1), (-1, 2).
         elif self.nominator == 2:
@@ -107,12 +97,10 @@ class FractionGenerator:
             elif self.state == 3:
                 res = (-2, 1)
                 self.state = 4
-            elif self.state == 4:
+            else:
                 res = (-1, 2)
                 self.nominator = 3
                 self.state = 1
-            else:
-                raise ValueError('invalid state.')
 
         # Generating the rest.
         else:
@@ -156,7 +144,7 @@ class FractionGenerator:
                     self.memory_idx = 0
                     self.state = 4
             # State 4.
-            elif self.state == 4:
+            else:
                 res = self.memory[self.memory_idx]
                 res = (-res[1], res[0])
                 self.memory_idx += 1
@@ -168,9 +156,6 @@ class FractionGenerator:
                     self.memory_idx = 0
                     self.state = 1
                     self.nominator += 1
-
-            else:
-                raise ValueError('invalid state.')
 
         return res
 
