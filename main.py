@@ -1,5 +1,6 @@
 import argparse
 import sys
+import math
 from typing import List, Tuple
 
 
@@ -180,6 +181,43 @@ def bijection(n: int) -> List[Tuple[int, int]]:
         res.append(next(gen))
 
     return res
+
+
+def QGenerater():
+    yield 0, 1
+    yield 1, 1
+    yield -1, 1
+    n = 2
+    while True:
+        l = []
+        # for i in range(n-1, 0, -1):
+        for i in range(1, n):
+            if math.gcd(n, i) == 1:
+                l.append((n, i))
+        for n, i in l:
+            yield n, i
+        for n, i in l:
+            yield i, n
+        for n, i in l:
+            yield -n, i
+        for n, i in l:
+            yield -i, n
+        n += 1
+
+
+def QGenerater2():
+    yield 0, 1
+    yield 1, 1
+    yield -1, 1
+    n = 2
+    while True:
+        for i in range(1, n):
+            if math.gcd(n, i) == 1:
+                yield n, i
+                yield i, n
+                yield -n, i
+                yield -i, n
+        n += 1
 
 
 def parse_args(argv: List[str]) -> argparse.Namespace:
