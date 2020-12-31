@@ -20,10 +20,3 @@ def test_bijective(n: int):
     res = main.bijection(n=n)
 
     assert len(res) == len(set(res)) == n + 1
-
-
-def test_reimplementation(n: int):
-    res = main.bijection(n=n)
-    res_r = [i for i, _ in zip(main.QGenerater(), range(n))]
-    for i, j in zip(res, res_r):
-        assert i == j

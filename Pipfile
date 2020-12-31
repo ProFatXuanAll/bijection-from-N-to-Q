@@ -4,9 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-coverage = "*"
 
 [dev-packages]
+autopep8 = "*"
+coverage = "*"
+isort = "*"
 pytest = "*"
 
 [requires]
